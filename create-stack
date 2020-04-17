@@ -4,5 +4,3 @@ aws cloudformation create-stack \
   --parameters file://`pwd`/$1/stack-parameters.json \
   --capabilities CAPABILITY_NAMED_IAM \
   --disable-rollback \
-  --profile private \
-  --region eu-central-1

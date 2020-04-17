@@ -15,10 +15,10 @@ Parameters:
     Description: Name of the cluster to create
     Type: String
 
-  AMI:
-    Description: Name of the ami to use
-    Type: String
-    Default: ami-0bb804e8cd910a664
+# Use public Systems Manager Parameter
+  LatestAmiId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id'
 
   InstanceType:
     Description: Instance type that will be used in created cluster
@@ -145,7 +145,7 @@ Resources:
   ECSLaunchConfiguration:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
-      ImageId: !Ref AMI
+      ImageId: !Ref LatestAmiId
       KeyName: !Ref KeyName
       InstanceType: !Ref InstanceType
       SecurityGroups:
@@ -153,20 +153,21 @@ Resources:
       IamInstanceProfile: !Ref ECSInstanceProfile
       UserData:
         "Fn::Base64": !Sub |
-          #!/bin/bash
-          yum install -y aws-cfn-bootstrap
-          /opt/aws/bin/cfn-init -v --region ${AWS::Region} --stack ${AWS::StackName} --resource ECSLaunchConfiguration
-          /opt/aws/bin/cfn-signal -e $? --region ${AWS::Region} --stack ${AWS::StackName} --resource ECSAutoScalingGroup
+           #!/bin/bash -xe
+           echo ECS_CLUSTER=${ECSCluster} >> /etc/ecs/ecs.config
+           yum install -y aws-cfn-bootstrap
+           /opt/aws/bin/cfn-init -v --region ${AWS::Region} --stack ${AWS::StackName} --resource ECSLaunchConfiguration
+           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource ECSAutoScalingGroup --region ${AWS::Region}
     Metadata:
       AWS::CloudFormation::Init:
        config:
           packages:
             yum:
-              aws-cli: []
-              vim-enhanced: []
-          commands:
-            01_add_instance_to_cluster:
-              command: !Sub echo ECS_CLUSTER=${ECSCluster} > /etc/ecs/ecs.config
+#              aws-cli: []
+               vim-enhanced: []
+#            commands:
+#              01_add_instance_to_cluster:
+#                command: !Sub echo ECS_CLUSTER=${ECSCluster} > /etc/ecs/ecs.config
           files:
             "/etc/cfn/cfn-hup.conf":
               mode: '000400'

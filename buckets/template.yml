@@ -14,6 +14,11 @@ Resources:
     DeletionPolicy: Retain
     Properties:
       BucketName: !Sub ${DomainName}-nextcloud-backups
+      PublicAccessBlockConfiguration:
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+        IgnorePublicAcls: true
+        BlockPublicAcls: true
       LifecycleConfiguration:
         Rules:
           - ExpirationInDays: 7
@@ -24,6 +29,11 @@ Resources:
     DeletionPolicy: Retain
     Properties:
       BucketName: !Sub ${DomainName}-nextcloud-db-backups
+      PublicAccessBlockConfiguration:
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+        IgnorePublicAcls: true
+        BlockPublicAcls: true
       LifecycleConfiguration:
         Rules:
           - ExpirationInDays: 7
@@ -34,3 +44,22 @@ Resources:
     DeletionPolicy: Retain
     Properties:
       BucketName: !Sub ${DomainName}-nextcloud-storage
+      PublicAccessBlockConfiguration:
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+        IgnorePublicAcls: true
+        BlockPublicAcls: true
+
+
+  NextcloudWebServerStorageBucket:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Sub ${DomainName}-nextcloud-webserver
+      PublicAccessBlockConfiguration:
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+        IgnorePublicAcls: true
+        BlockPublicAcls: true
+
+

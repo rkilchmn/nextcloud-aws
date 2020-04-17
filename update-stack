@@ -3,5 +3,4 @@ aws cloudformation update-stack \
   --template-body file://`pwd`/$1/template.yml \
   --parameters file://`pwd`/$1/stack-parameters.json \
   --capabilities CAPABILITY_NAMED_IAM \
-  --profile private \
-  --region eu-central-1
+  --profile default \
