@@ -1,3 +1,0 @@
-"StackId": "arn:aws:cloudformation:ap-southeast-2:429728871734:stack/nextcloud-vpc/bd53eb30-59ce-11ea-bff0-0643e0359b60"
-"StackId": "arn:aws:cloudformation:ap-southeast-2:429728871734:stack/nextcloud-buckets/fe11edd0-59d7-11ea-b037-0299ab58f908"
-"StackId": "arn:aws:cloudformation:ap-southeast-2:429728871734:stack/nextcloud-cluster/ba1321a0-59da-11ea-b16a-02667729fd96"
