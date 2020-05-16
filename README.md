@@ -83,7 +83,7 @@ and add following to the `config.php` file:
       'secret' => '<storage-user-secret>',
       'use_ssl' => true,
       'region' => '<region-you-deployed-to>',
-      'use_path_style' => true,
+// only use for some non-AWS providers: 'use_path_style' => true,
     ),
   ),
 ```
