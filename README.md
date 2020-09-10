@@ -63,37 +63,6 @@ In order to setup services, we need to fill up quite a lot of parameters, mostly
 > # fill up stack parameters
 > ./create-stack services
 ```
-
-### 6. Setting up S3 as primary storage
-Before setting up the S3 go and log in to your nextcloud instance first. I've noticed that if you set up objectstore before logging in installation goes bonkers and spits out 500's like there is no tomorrow.
-
-You need to ssh into your instance and edit the `/data/nextcloud/config/config.php`. Before that, go to AWS IAM console and create access keys for storage user. Next, enter the maintenence mode:
-```
-docker exec --user www-data -it <nextcloud-container-id> php occ maintenance:mode --on
-```
-and add following to the `config.php` file:
-```
-  'objectstore' =>
-  array (
-    'class' => 'OC\\Files\\ObjectStore\\S3',
-    'arguments' =>
-    array (
-      'bucket' => '<storage-bucket-name>',
-      'key' => '<storage-user-key>',
-      'secret' => '<storage-user-secret>',
-      'use_ssl' => true,
-      'region' => '<region-you-deployed-to>',
-// only use for some non-AWS providers: 'use_path_style' => true,
-    ),
-  ),
-```
-Finally, turn off the maintenance mode:
-```
-docker exec --user www-data -it <nextcloud-container-id> php occ maintenance:mode --off
-```
-I also strongly recommend adding encryption app to your installation before uploading anything. You'll need to set it up for the storage after installation, refer to nextcloud docs for more info.
-
-
 ## Restoring backups
 1. Start services (nextcloud and database)
 2. Download backup files:
