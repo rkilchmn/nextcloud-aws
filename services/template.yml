@@ -45,6 +45,22 @@ Parameters:
     Description: DB master password
     Type: String
 
+  s3Bucket:
+    Description: S3 bucket name for nextloud primary storage
+    Type: String
+
+  s3Key:
+    Description: S3 bucket key for nextloud primary storage
+    Type: String
+
+  s3Secret:
+    Description: S3 bucket secret for nextloud primary storage
+    Type: String
+
+  s3Region:
+    Description: S3 bucket region for nextloud primary storage
+    Type: String
+
 Resources:
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
@@ -112,8 +128,15 @@ Resources:
               Value: !Ref DbPassword
             - Name: MYSQL_DATABASE
               Value: nextcloud
-
-        - Image: "mariadb"
+            - Name: OBJECTSTORE_S3_BUCKET
+              Value: !Ref s3Bucket
+            - Name: OBJECTSTORE_S3_KEY 
+              Value: !Ref s3Key
+            - Name: OBJECTSTORE_S3_SECRET 
+              Value: !Ref s3Secret
+            - Name: OBJECTSTORE_S3_REGION 
+              Value: !Ref s3Region
+        - Image: "linuxserver/mariadb"
           Essential: true
           Memory: 256
           MemoryReservation: 128
@@ -127,6 +150,10 @@ Resources:
               Value: nextcloud
             - Name: MYSQL_ROOT_PASSWORD
               Value: !Ref DbRootPassword
+            - Name: PUID
+              Value: 999
+            - Name: PGID
+              Value: 999
 
   Service:
     Type: AWS::ECS::Service
