@@ -34,5 +34,22 @@
     {
         "ParameterKey": "DbPassword",
         "ParameterValue": "db-password"
+    },
+    {
+        "ParameterKey": "s3Bucket",
+        "ParameterValue": "nextcloud.kilchenmann.net-nextcloud-storage"
+    },
+    {
+        "ParameterKey": "s3Key",
+        "ParameterValue": "s3Key"
+    },
+    {
+        "ParameterKey": "s3Secret",
+        "ParameterValue": "s3Secret"
+    },
+    {
+        "ParameterKey": "s3Region",
+        "ParameterValue": "s3Region"
     }
+
 ]
